@@ -1,13 +1,19 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
+import express from 'express';
+import cors from 'cors';
+import nodemailer from 'nodemailer';
+import 'dotenv/config';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
+const IS_DEV = process.env.NODE_ENV !== 'production';
 
+// ── Middleware ───────────────────────────────────────────────────
+app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
 app.use(express.json());
 
 // ── Nodemailer transporter (Hostinger SMTP) ───────────────────────
@@ -188,5 +194,6 @@ if (!IS_DEV) {
 }
 
 app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
+  console.log(`✅  API server running → http://localhost:${PORT}`);
+  console.log(`   SMTP: ${process.env.SMTP_HOST}:${process.env.SMTP_PORT} | user: ${process.env.SMTP_USER}`);
 });
