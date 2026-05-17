@@ -13,7 +13,13 @@ const PORT = process.env.PORT || 3000;
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
 // ── Middleware ───────────────────────────────────────────────────
-app.use(cors({ origin: process.env.ALLOWED_ORIGIN || '*' }));
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://www.megicsa.com',
+    'https://megicsa.com'
+  ]
+}));
 app.use(express.json());
 
 // ── Nodemailer transporter (Hostinger SMTP) ───────────────────────
