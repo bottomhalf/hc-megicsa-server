@@ -28,9 +28,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS,
   },
   tls: {
-    // Hostinger sometimes uses self-signed certs in shared hosting
-    rejectUnauthorized: true,
-    minVersion: 'TLSv1.2',
+    rejectUnauthorized: false,
   },
 });
 
