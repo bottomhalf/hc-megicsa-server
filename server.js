@@ -17,7 +17,8 @@ app.use(cors({
   origin: [
     'http://localhost:5173',
     'https://www.megicsa.com',
-    'https://megicsa.com'
+    'https://megicsa.com',
+    'https://api.megicsa.com'
   ]
 }));
 app.use(express.json());
