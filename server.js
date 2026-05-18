@@ -81,6 +81,28 @@ function validateContact({ name, email, phone, message }) {
   return errors;
 }
 
+// ── POST /api/ping  (simple test — two fields) ───────────────────
+// curl -X POST https://api.megicsa.com/api/ping \
+//      -H "Content-Type: application/json" \
+//      -d '{"name":"Alice","message":"hello"}'
+app.post('/api/ping', (req, res) => {
+  const { name, message } = req.body ?? {};
+  return res.status(200).json({
+    success: true,
+    received: { name: name ?? null, message: message ?? null },
+    reply: `Hello ${name ?? 'stranger'}, your message "${message ?? ''}" was received!`,
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// ── GET /api/routes  (diagnostic) ────────────────────────────────
+app.get('/api/routes', (_req, res) => {
+  const routes = app._router.stack
+    .filter((r) => r.route)
+    .map((r) => ({ path: r.route.path, methods: Object.keys(r.route.methods).join(', ').toUpperCase() }));
+  return res.json({ status: 'ok', routes });
+});
+
 // ── POST /api/contact ─────────────────────────────────────────────
 app.post('/api/contact', async (req, res) => {
   const { name, company, email, phone, country, service, message } = req.body;
