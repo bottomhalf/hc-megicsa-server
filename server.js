@@ -58,7 +58,7 @@ function validateContact({ name, email, phone, message }) {
 
   if (phone?.trim()) {
     const digits = phoneDigits(phone);
-    if (digits.length < 7)  errors.phone = 'Phone number is too short (min 7 digits).';
+    if (digits.length < 7) errors.phone = 'Phone number is too short (min 7 digits).';
     else if (digits.length > 15) errors.phone = 'Phone number is too long (max 15 digits).';
   }
 
@@ -86,7 +86,7 @@ app.post('/api/ping', (req, res) => {
   return res.status(200).json({
     success: true,
     received: { name: name ?? null, message: message ?? null },
-    reply: `Hello ${name ?? 'stranger'}, your message "${message ?? ''}" was received!`,
+    reply: `Hello ${name ?? 'stranger'} user, your message "${message ?? ''}" was received!`,
     timestamp: new Date().toISOString(),
   });
 });
@@ -102,16 +102,16 @@ app.post('/api/contact', async (req, res) => {
 
   const serviceLabels = {
     'soft-landing': 'Soft Landing (Company Setup)',
-    'biz-dev':      'Business Development',
-    '180-day':      'Full 180-Day Programme',
-    retainer:       'Strategic Retainer',
-    equity:         'Equity Partnership',
+    'biz-dev': 'Business Development',
+    '180-day': 'Full 180-Day Programme',
+    retainer: 'Strategic Retainer',
+    equity: 'Equity Partnership',
   };
   const serviceLabel = serviceLabels[service] || service || 'Not specified';
 
   const mailOptions = {
-    from:    `"Megic SA Website" <${SMTP_USER}>`,
-    to:      CONTACT_TO,
+    from: `"Megic SA Website" <${SMTP_USER}>`,
+    to: CONTACT_TO,
     replyTo: email,
     subject: `New Consultation Request — ${name}`,
     text: `
@@ -171,7 +171,7 @@ Sent at ${new Date().toUTCString()}
       <div class="row"><span class="label">Service</span><span class="value">${serviceLabel}</span></div>
       <hr />
       <span class="label" style="margin-bottom:10px;display:block">Message</span>
-      <div class="msg">${message.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>')}</div>
+      <div class="msg">${message.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>')}</div>
     </div>
     <div class="footer">Sent at ${new Date().toUTCString()}</div>
   </div>
