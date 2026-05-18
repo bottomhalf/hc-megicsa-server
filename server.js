@@ -1,9 +1,16 @@
 import express from 'express';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
-import 'dotenv/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { existsSync } from 'fs';
+
+// Load .env only in dev (file must exist). In production, env vars are
+// injected by the hosting platform — dotenv is not needed and must not crash.
+if (existsSync(new URL('.env', import.meta.url).pathname.replace(/^\/([A-Z]:)/, '$1'))) {
+  const { default: dotenv } = await import('dotenv');
+  dotenv.config();
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -90,7 +97,7 @@ app.post('/api/ping', (req, res) => {
   return res.status(200).json({
     success: true,
     received: { name: name ?? null, message: message ?? null },
-    reply: `Hello ${name ?? 'stranger'}, your message "${message ?? ''}" was received!`,
+    reply: `Hello ${name ?? 'stranger'} user, your message "${message ?? ''}" was received!`,
     timestamp: new Date().toISOString(),
   });
 });
